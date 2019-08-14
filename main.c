@@ -1,6 +1,22 @@
 #include <stdio.h>
 #include "grafo.h"
 
+void
+caminho_auxiliar(TGrafo *g, const int *caminho, unsigned int limiteCaminho)
+{
+    printf("CAMINHO CANDIDATO [ ");
+    unsigned int caminhoIndex;
+    for (caminhoIndex = 0; caminhoIndex < limiteCaminho + 1; caminhoIndex++)
+    {
+        printf(" %d", caminho[caminhoIndex]);
+    }
+    unsigned int isCaminhoResult = is_caminho(g, caminho, limiteCaminho);
+    if (isCaminhoResult)
+        printf(" ] É VÁLIDO\n");
+    else
+        printf(" ] NÃO É VÁLIDO\n");
+}
+
 int
 main()
 {
@@ -24,6 +40,10 @@ main()
     unsigned int grau_saida_vertice = 0;
     unsigned int grau_saida = outdeg(g, grau_saida_vertice);
     printf("GRAU DE SAÍDA DO VÉRTICE [ %d ]: %d\n", grau_saida_vertice, grau_saida);
+
+    int caminho[4] = {0, 2, 1, 3};
+    unsigned int limiteCaminho = 3;
+    caminho_auxiliar(g, caminho, limiteCaminho);
 
     return 0;
 }

@@ -129,3 +129,30 @@ outdeg(TGrafo *g, unsigned int w)
     }
     return grau_de_saida;
 }
+
+unsigned int
+is_caminho (TGrafo *g, const int *seq, unsigned int k)
+{
+    int i;
+    for (i = 0; i < k; i++)
+    {
+        int v = seq[i];
+        int w = seq[i + 1];
+
+        /* a partir da entrada [ v ] verifica os seus adjacentes */
+        TNo *aux = g->lista_adjacencias[v];
+        while (aux && aux->vertice != w)
+            aux = aux->proximo;
+
+        /*
+         * se  [ w ] não está na lista [ v ], não existe aresta e
+         * consequentemente, não existe caminho
+         */
+        if (aux == NULL)
+            return 0;
+
+    }
+
+    /* É caminho */
+    return 1;
+}

@@ -60,6 +60,13 @@ unsigned int indeg (TGrafo *, unsigned int);
 unsigned int outdeg (TGrafo *, unsigned int);
 
 /*
+ * Verifica se uma sequência de vértices
+ * na forma de um array é um caminho
+ * válido na estrutura TGrafo criada.
+ */
+unsigned int is_caminho (TGrafo *, const int *, unsigned int);
+
+/*
  * Para cada vértice  [ g->vertice ] do grafo, esta função
  * imprime, em uma linha, todos os vértices
  * adjacentes à [ g->vertice ].
