@@ -66,6 +66,9 @@ unsigned int outdeg (TGrafo *, unsigned int);
  */
 unsigned int is_caminho (TGrafo *, const int *, unsigned int);
 
+unsigned int
+is_caminho_simples(TGrafo *, const int *, unsigned int);
+
 /*
  * Para cada vértice  [ g->vertice ] do grafo, esta função
  * imprime, em uma linha, todos os vértices

@@ -1,5 +1,8 @@
 #include "grafo.h"
 
+int
+_int_qsort_comparator(const void *c1, const void *c2);
+
 TGrafo *
 produce_grafo(unsigned int qtd_vertices)
 {
@@ -131,7 +134,7 @@ outdeg(TGrafo *g, unsigned int w)
 }
 
 unsigned int
-is_caminho (TGrafo *g, const int *seq, unsigned int k)
+is_caminho(TGrafo *g, const int *seq, unsigned int k)
 {
     int i;
     for (i = 0; i < k; i++)
@@ -154,5 +157,52 @@ is_caminho (TGrafo *g, const int *seq, unsigned int k)
     }
 
     /* É caminho */
+    return 1;
+}
+
+unsigned int
+is_caminho_simples(TGrafo *g, const int *seq, unsigned int k);
+
+/*
+ * Função de comparação utilizada pela
+ * implementação do QuickSort.
+ *
+ * Realiza a comparação entre inteiros simples
+ */
+int
+_int_qsort_comparator(const void *c1, const void *c2)
+{
+    const int o1 = *(const int *) c1;
+    const int o2 = *(const int *) c2;
+
+    return o1 - o2;
+}
+
+unsigned int
+is_caminho_simples(TGrafo *g, const int *seq, unsigned int k)
+{
+    unsigned int isCaminho;
+    isCaminho = is_caminho(g, seq, k);
+    if (!isCaminho)
+    {
+        return 0;
+    }
+
+    /* cast to pointer */
+    unsigned int caminho_size = k + 1;
+    int * caminho = (void *) seq;
+    qsort(caminho, caminho_size, sizeof(int), _int_qsort_comparator);
+
+    unsigned int i;
+    for (i = 0; i < k; i++)
+    {
+        int current_position = caminho[i];
+        int next_position = caminho[i + 1];
+
+        int caminhoNaoSimples = current_position == next_position;
+        if (caminhoNaoSimples)
+            return 0;
+    }
+
     return 1;
 }
