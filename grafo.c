@@ -1,11 +1,21 @@
 #include "grafo.h"
 
-int
-_int_qsort_comparator(const void *c1, const void *c2);
+/*
+ Visita todos os vértices possíveis de se chegar dado um [ verticeOrigem ]
+ marcando-os como visitados, usando o algoritmo de Busca em Profundidade
+*/
+void _busca_profundidade(TGrafo *, unsigned int, int *);
+
+/*
+ * Função de comparação utilizada pela
+ * implementação do QuickSort.
+ *
+ * Realiza a comparação entre inteiros simples
+ */
+int _int_qsort_comparator(const void *c1, const void *c2);
 
 TGrafo *
-produce_grafo(unsigned int qtd_vertices)
-{
+produce_grafo(unsigned int qtd_vertices) {
     TGrafo *g;
 
     g = (TGrafo *) calloc(1, sizeof(TGrafo));
@@ -18,8 +28,7 @@ produce_grafo(unsigned int qtd_vertices)
 }
 
 int
-insert_aresta(TGrafo *g, unsigned int v, unsigned int w)
-{
+insert_aresta(TGrafo *g, unsigned int v, unsigned int w) {
     TNo *novo;
     TNo *aux;
     TNo *ant;
@@ -31,22 +40,19 @@ insert_aresta(TGrafo *g, unsigned int v, unsigned int w)
     aux = g->lista_adjacencias[v];
 
     verticesIguais = v == w;
-    if (verticesIguais)
-    {
+    if (verticesIguais) {
         printf("VÉRTICES [ %d, %d ] SÃO REPETIDOS\n", v, w);
         return 1;
     }
 
     /* Se existe aux e aux != NULL */
-    while (aux && aux->vertice <= w)
-    {
+    while (aux && aux->vertice <= w) {
         /*
          * Se o grafo já tem a aresta
          * [ v - w ], a função não faz nada.
          */
         parRepetido = aux->vertice == w;
-        if (parRepetido)
-        {
+        if (parRepetido) {
             printf("VÉRTICES [ %d, %d ] JÁ INSERIDOS\n", v, w);
             return 1;
         }
@@ -73,12 +79,10 @@ insert_aresta(TGrafo *g, unsigned int v, unsigned int w)
 }
 
 void
-show(TGrafo *g)
-{
-    int i;
+show(TGrafo *g) {
+    unsigned int i;
     printf("Vértices [ %d ] e Arestas [ %d ]\n\n", g->qtd_vertices, g->qtd_arestas);
-    for (i = 0; i < g->qtd_vertices; i++)
-    {
+    for (i = 0; i < g->qtd_vertices; i++) {
         TNo *aux;
         printf("Vértice [ %d ] -> ", i);
 
@@ -86,8 +90,7 @@ show(TGrafo *g)
         aux = g->lista_adjacencias[i];
 
         /* enquanto não chegar ao final da lista */
-        while (aux != NULL)
-        {
+        while (aux != NULL) {
             printf("%d ", aux->vertice);
             aux = aux->proximo;
         }
@@ -96,20 +99,16 @@ show(TGrafo *g)
 }
 
 unsigned int
-indeg(TGrafo *g, unsigned int w)
-{
-    int i;
+grau_entrada(TGrafo *g, unsigned int w) {
     TNo *aux = NULL;
-    int controle = g->qtd_vertices;
+    unsigned int controle = g->qtd_vertices;
     unsigned int grau_de_entrada = 0;
 
-    for (i = 0; i < controle; i++)
-    {
+    unsigned int i;
+    for (i = 0; i < controle; i++) {
         aux = g->lista_adjacencias[i];
-        while (aux && aux->vertice)
-        {
-            if (aux->vertice == w)
-            {
+        while (aux && aux->vertice) {
+            if (aux->vertice == w) {
                 grau_de_entrada++;
             }
             aux = aux->proximo; /* anda para frente */
@@ -119,14 +118,12 @@ indeg(TGrafo *g, unsigned int w)
 }
 
 unsigned int
-outdeg(TGrafo *g, unsigned int w)
-{
+grau_saida(TGrafo *g, unsigned int w) {
     TNo *aux = NULL;
     unsigned int grau_de_saida = 0;
 
     aux = g->lista_adjacencias[w];
-    while (aux && aux->vertice)
-    {
+    while (aux && aux->vertice) {
         grau_de_saida++;
         aux = aux->proximo; /* anda para frente */
     }
@@ -134,11 +131,9 @@ outdeg(TGrafo *g, unsigned int w)
 }
 
 unsigned int
-is_caminho(TGrafo *g, const int *seq, unsigned int k)
-{
-    int i;
-    for (i = 0; i < k; i++)
-    {
+is_caminho(TGrafo *g, const int *seq, unsigned int k) {
+    unsigned int i;
+    for (i = 0; i < k; i++) {
         int v = seq[i];
         int w = seq[i + 1];
 
@@ -153,7 +148,6 @@ is_caminho(TGrafo *g, const int *seq, unsigned int k)
          */
         if (aux == NULL)
             return 0;
-
     }
 
     /* É caminho */
@@ -161,41 +155,20 @@ is_caminho(TGrafo *g, const int *seq, unsigned int k)
 }
 
 unsigned int
-is_caminho_simples(TGrafo *g, const int *seq, unsigned int k);
-
-/*
- * Função de comparação utilizada pela
- * implementação do QuickSort.
- *
- * Realiza a comparação entre inteiros simples
- */
-int
-_int_qsort_comparator(const void *c1, const void *c2)
-{
-    const int o1 = *(const int *) c1;
-    const int o2 = *(const int *) c2;
-
-    return o1 - o2;
-}
-
-unsigned int
-is_caminho_simples(TGrafo *g, const int *seq, unsigned int k)
-{
+is_caminho_simples(TGrafo *g, const int *seq, unsigned int k) {
     unsigned int isCaminho;
     isCaminho = is_caminho(g, seq, k);
-    if (!isCaminho)
-    {
+    if (!isCaminho) {
         return 0;
     }
 
     /* cast to pointer */
     unsigned int caminho_size = k + 1;
-    int * caminho = (void *) seq;
+    int *caminho = (void *) seq;
     qsort(caminho, caminho_size, sizeof(int), _int_qsort_comparator);
 
     unsigned int i;
-    for (i = 0; i < k; i++)
-    {
+    for (i = 0; i < k; i++) {
         int current_position = caminho[i];
         int next_position = caminho[i + 1];
 
@@ -205,4 +178,48 @@ is_caminho_simples(TGrafo *g, const int *seq, unsigned int k)
     }
 
     return 1;
+}
+
+unsigned int
+existe_caminho(TGrafo *g, int v, int w) {
+
+    int *visitados = (int *) calloc(g->qtd_vertices, sizeof(int));
+    _busca_profundidade(g, v, visitados);
+
+    unsigned int result = visitados[w];
+    free(visitados);
+
+    return result;
+}
+
+void
+_busca_profundidade(TGrafo *G, unsigned int verticeOrigem, int *visitados) {
+
+    /* Marca o vértice origem como visitado */
+    visitados[verticeOrigem] = 1;
+
+    TNo *w;
+    w = G->lista_adjacencias[verticeOrigem];
+
+    /* Para cada vértice [ w ] adjacente ao vértice de origem faça */
+    while (w) {
+
+        /* Se [ w ] não foi visitado então */
+        int naoVisitado = !visitados[w->vertice];
+        if (naoVisitado) {
+            unsigned int novaOrigem = w->vertice;
+            _busca_profundidade(G, novaOrigem, visitados);
+        }
+
+        /* Adentra mais o grafo */
+        w = w->proximo;
+    }
+}
+
+int
+_int_qsort_comparator(const void *c1, const void *c2) {
+    const int o1 = *(const int *) c1;
+    const int o2 = *(const int *) c2;
+
+    return o1 - o2;
 }

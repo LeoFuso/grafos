@@ -50,24 +50,37 @@ int insert_aresta (TGrafo *, unsigned int, unsigned int);
  * [ unsigned int ] em uma estrutura
  * TGrafo, se sucedida, retorna o seu grau de entrada.
  */
-unsigned int indeg (TGrafo *, unsigned int);
+unsigned int grau_entrada (TGrafo *, unsigned int);
 
 /*
  * Calcula o grau de saída de um vértice
  * [ unsigned int ] em uma estrutura
  * TGrafo, se sucedida, retorna o seu grau de saída.
  */
-unsigned int outdeg (TGrafo *, unsigned int);
+unsigned int grau_saida (TGrafo *, unsigned int);
 
 /*
  * Verifica se uma sequência de vértices
- * na forma de um array é um caminho
- * válido na estrutura TGrafo criada.
+ * na forma de um array formam um caminho.
  */
-unsigned int is_caminho (TGrafo *, const int *, unsigned int);
+unsigned int
+is_caminho (TGrafo *, const int *, unsigned int);
 
+/*
+ * Verifica se uma sequência de vértices
+ * na forma de um array formam um caminho
+ * simples.
+ *
+ * Um caminho simples é um caminho onde nenhum vértice se repete.
+ */
 unsigned int
 is_caminho_simples(TGrafo *, const int *, unsigned int);
+
+/*
+ * Verifica se há caminho entre dois vértices [ v - w ]
+ */
+unsigned int
+existe_caminho (TGrafo *, int, int);
 
 /*
  * Para cada vértice  [ g->vertice ] do grafo, esta função
