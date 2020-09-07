@@ -84,6 +84,7 @@ main() {
 
     existe_caminho_auxiliar(g, 5, 2);
     existe_caminho_auxiliar(g, 5, 3);
+    existe_caminho_auxiliar(g, 0, 3);
 
     return 0;
 }

@@ -23,7 +23,7 @@ typedef struct {
  * cria uma matriz de matriz de adjacências para
  * [ unsigned int ] vértices e zera os valores para arestas.
  */
-TGrafo *produce_grafo (unsigned int);
+TGrafo *produce_grafo(unsigned int);
 
 /*
  * Cria uma aresta [ unsigned int a - unsigned int b] na
@@ -43,28 +43,28 @@ TGrafo *produce_grafo (unsigned int);
  * A função também atualiza a quantidade
  * de arestas na estrutura  TGrafo.
  */
-int insert_aresta (TGrafo *, unsigned int, unsigned int);
+int insert_aresta(TGrafo *, unsigned int, unsigned int);
 
 /*
  * Calcula o grau de entrada de vértice
  * [ unsigned int ] em uma estrutura
  * TGrafo, se sucedida, retorna o seu grau de entrada.
  */
-unsigned int grau_entrada (TGrafo *, unsigned int);
+unsigned int grau_entrada(TGrafo *, unsigned int);
 
 /*
  * Calcula o grau de saída de um vértice
  * [ unsigned int ] em uma estrutura
  * TGrafo, se sucedida, retorna o seu grau de saída.
  */
-unsigned int grau_saida (TGrafo *, unsigned int);
+unsigned int grau_saida(TGrafo *, unsigned int);
 
 /*
  * Verifica se uma sequência de vértices
  * na forma de um array formam um caminho.
  */
 unsigned int
-is_caminho (TGrafo *, const int *, unsigned int);
+is_caminho(TGrafo *, const int *, unsigned int);
 
 /*
  * Verifica se uma sequência de vértices
@@ -80,15 +80,15 @@ is_caminho_simples(TGrafo *, const int *, unsigned int);
  * Verifica se há caminho entre dois vértices [ v - w ]
  */
 unsigned int
-existe_caminho (TGrafo *, int, int);
+existe_caminho(TGrafo *, int, int);
 
 /*
  * Para cada vértice  [ g->vertice ] do grafo, esta função
  * imprime, em uma linha, todos os vértices
  * adjacentes à [ g->vertice ].
  */
-void show (TGrafo *);
+void show(TGrafo *);
 
-void free_graph (TGrafo *);
+void free_graph(TGrafo *);
 
 #endif //GRAFO_H

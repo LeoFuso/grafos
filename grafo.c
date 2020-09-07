@@ -4,7 +4,7 @@
  Visita todos os vértices possíveis de se chegar dado um [ verticeOrigem ]
  marcando-os como visitados, usando o algoritmo de Busca em Profundidade
 */
-void _busca_profundidade(TGrafo *, unsigned int, int *);
+void busca_profundidade(TGrafo *, unsigned int, int *);
 
 /*
  * Função de comparação utilizada pela
@@ -12,7 +12,7 @@ void _busca_profundidade(TGrafo *, unsigned int, int *);
  *
  * Realiza a comparação entre inteiros simples
  */
-int _int_qsort_comparator(const void *c1, const void *c2);
+int int_qsort_comparator(const void *c1, const void *c2);
 
 TGrafo *
 produce_grafo(unsigned int qtd_vertices) {
@@ -165,7 +165,7 @@ is_caminho_simples(TGrafo *g, const int *seq, unsigned int k) {
     /* cast to pointer */
     unsigned int caminho_size = k + 1;
     int *caminho = (void *) seq;
-    qsort(caminho, caminho_size, sizeof(int), _int_qsort_comparator);
+    qsort(caminho, caminho_size, sizeof(int), int_qsort_comparator);
 
     unsigned int i;
     for (i = 0; i < k; i++) {
@@ -184,7 +184,7 @@ unsigned int
 existe_caminho(TGrafo *g, int v, int w) {
 
     int *visitados = (int *) calloc(g->qtd_vertices, sizeof(int));
-    _busca_profundidade(g, v, visitados);
+    busca_profundidade(g, v, visitados);
 
     unsigned int result = visitados[w];
     free(visitados);
@@ -193,7 +193,7 @@ existe_caminho(TGrafo *g, int v, int w) {
 }
 
 void
-_busca_profundidade(TGrafo *G, unsigned int verticeOrigem, int *visitados) {
+busca_profundidade(TGrafo *G, unsigned int verticeOrigem, int *visitados) {
 
     /* Marca o vértice origem como visitado */
     visitados[verticeOrigem] = 1;
@@ -208,7 +208,7 @@ _busca_profundidade(TGrafo *G, unsigned int verticeOrigem, int *visitados) {
         int naoVisitado = !visitados[w->vertice];
         if (naoVisitado) {
             unsigned int novaOrigem = w->vertice;
-            _busca_profundidade(G, novaOrigem, visitados);
+            busca_profundidade(G, novaOrigem, visitados);
         }
 
         /* Adentra mais o grafo */
@@ -217,7 +217,7 @@ _busca_profundidade(TGrafo *G, unsigned int verticeOrigem, int *visitados) {
 }
 
 int
-_int_qsort_comparator(const void *c1, const void *c2) {
+int_qsort_comparator(const void *c1, const void *c2) {
     const int o1 = *(const int *) c1;
     const int o2 = *(const int *) c2;
 
