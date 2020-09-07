@@ -122,6 +122,8 @@ remove_aresta (TGrafo *g, unsigned int v, unsigned int w)
             if (ant == NULL)
             {
                 g->lista_adjacencias[v] = NULL;
+                g->qtd_arestas--;
+
                 return 0;
             }
 
