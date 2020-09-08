@@ -69,6 +69,7 @@ main ()
 
     remove_aresta (g, 4, 3);
     remove_aresta (g, 5, 1);
+    remove_aresta (g, 0, 2);
 
     show (g);
 
