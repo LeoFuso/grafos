@@ -107,49 +107,56 @@ remove_aresta (TGrafo *g, unsigned int v, unsigned int w)
     ant = NULL;
     aux = g->lista_adjacencias[v];
 
-    /* Se existe aux e aux != NULL */
-    while (aux && aux->vertice <= w)
+    /* Não encontrou baseado em V */
+    if (aux == NULL)
     {
-        /*
-         * Se o grafo já tem a aresta
-         * [ v - w ], a função deve removê-la.
-         */
-        arestaEncontrada = aux->vertice == w;
-        if (arestaEncontrada)
-        {
-            printf ("ARESTA [ %d, %d ] REMOVIDA\n", v, w);
+        free(aux);
+        return 1;
+    }
 
-            if (ant == NULL)
-            {
-                if (aux->proximo != NULL)
-                {
-                    g->lista_adjacencias[v] = aux->proximo;
-                    g->qtd_arestas--;
-
-                    free(aux);
-
-                    return 0;
-                }
-
-                g->lista_adjacencias[v] = NULL;
-                g->qtd_arestas--;
-                free(aux);
-
-                return 0;
-            }
-
-            ant->proximo = aux->proximo;
-            g->qtd_arestas--;
-            free (aux); /* Libera memória */
-
-            return 0;
-        }
-
+    /* Se existe aux e aux != NULL */
+    while (aux && aux->vertice < w)
+    {
         ant = aux; /* guarda o anterior */
         aux = aux->proximo; /* anda para frente */
     }
 
-    return 1;
+    /* Não encontrou baseado em W */
+    if (aux == NULL)
+    {
+        return 1;
+    }
+
+    /*
+    * Se o grafo já tem a aresta
+    * [ v - w ], a função deve removê-la.
+    */
+    arestaEncontrada = aux->vertice == w;
+    if (!arestaEncontrada)
+    {
+        return 1;
+    }
+
+    if (ant == NULL && aux->proximo != NULL)
+    {
+        g->lista_adjacencias[v] = aux->proximo;
+    }
+
+    if (ant == NULL && aux->proximo == NULL)
+    {
+        g->lista_adjacencias[v] = NULL;
+    }
+
+    if (ant != NULL)
+    {
+        ant->proximo = aux->proximo;
+    }
+
+    g->qtd_arestas--;
+    free (aux); /* Libera memória */
+
+    printf ("ARESTA [ %d, %d ] REMOVIDA\n", v, w);
+    return 0;
 }
 
 void
